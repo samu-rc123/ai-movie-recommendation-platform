@@ -13,3 +13,9 @@ __pycache__/
 .DS_Store
 
 backend/data/raw/
+backend/data/processed/*.pkl
+
+backend/data/raw/
+
+backend/data/processed/final_movies.csv
+backend/data/processed/movies_clean.csv
