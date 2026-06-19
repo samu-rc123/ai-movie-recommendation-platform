@@ -1,0 +1,12 @@
+venv/
+__pycache__/
+.ipynb_checkpoints/
+.env
+
+*.pyc
+*.pyo
+*.pyd
+
+.DS_Store
+
+backend/data/raw/
