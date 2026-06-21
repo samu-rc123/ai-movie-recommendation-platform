@@ -13,19 +13,20 @@ similarity = joblib.load(
 )
 
 
-def recommend(movie_name: str, top_n: int = 5):
-    try:
-        movie_match = movies[
+def recommend_with_scores(
+    movie_name,
+    top_n=20
+):
+
+    movie_match = movies[
         movies["title"].str.lower()
         == movie_name.lower()
     ]
 
-        if movie_match.empty:
-            return []
-
-        movie_index = movie_match.index[0]
-    except IndexError:
+    if movie_match.empty:
         return []
+
+    movie_index = movie_match.index[0]
 
     distances = similarity[movie_index]
 
@@ -38,8 +39,18 @@ def recommend(movie_name: str, top_n: int = 5):
     recommendations = []
 
     for movie in movie_list:
+
         recommendations.append(
-            movies.iloc[movie[0]].title
+            {
+                "movie_id":
+                    int(movies.iloc[movie[0]].movie_id),
+
+                "title":
+                    movies.iloc[movie[0]].title,
+
+                "content_score":
+                    float(movie[1])
+            }
         )
 
     return recommendations
