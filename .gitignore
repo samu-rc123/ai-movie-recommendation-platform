@@ -19,3 +19,13 @@ backend/data/raw/
 
 backend/data/processed/final_movies.csv
 backend/data/processed/movies_clean.csv
+backend/data/processed/*.pkl
+
+# Trained models
+backend/models/
+
+# HuggingFace checkpoints
+checkpoint-*/
+*.safetensors
+*.bin
+*.pt

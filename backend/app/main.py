@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from app.api.recommend import router
+from app.api.sentiment import router as sentiment_router
 
 app = FastAPI(
     title="AI Movie Recommendation API",
@@ -7,7 +8,9 @@ app = FastAPI(
 )
 
 app.include_router(router)
-
+app.include_router(
+    sentiment_router
+)
 
 @app.get("/")
 def home():
