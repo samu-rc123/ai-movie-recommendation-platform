@@ -29,3 +29,4 @@ checkpoint-*/
 *.safetensors
 *.bin
 *.pt
+*.pdf
