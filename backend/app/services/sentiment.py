@@ -1,9 +1,18 @@
 from transformers import pipeline
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
+MODEL_PATH = os.getenv(
+    "MODEL_PATH",
+    "./models/sentiment"
+)
 
 sentiment_model = pipeline(
     "sentiment-analysis",
-    model="./models/sentiment",
-    tokenizer="./models/sentiment"
+    model=MODEL_PATH,
+    tokenizer=MODEL_PATH
 )
 def analyze_sentiment(text):
 

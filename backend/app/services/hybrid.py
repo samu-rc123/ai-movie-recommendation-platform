@@ -72,7 +72,7 @@ def hybrid_recommend(
 
         "final_score":
             round(float(final_score), 3),
-        "explaination":
+        "reason":
             generate_explanation(
                 movie_name,
                 float(movie["content_score"]),
