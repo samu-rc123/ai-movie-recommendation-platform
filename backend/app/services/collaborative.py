@@ -1,12 +1,21 @@
 from pathlib import Path
 import pandas as pd
 import joblib
+from huggingface_hub import hf_hub_download
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
-model = joblib.load(
-    BASE_DIR / "data/processed/svd_model.pkl"
+REPO_ID = "Samrc2255/movie-recommendation-models"
+
+svd_path = hf_hub_download(
+    repo_id=REPO_ID,
+    filename="svd_model.pkl"
 )
+
+model = joblib.load(
+    svd_path
+)
+
 movies = pd.read_csv(
     BASE_DIR / "data/raw/movielens/movies.csv"
 )

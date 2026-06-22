@@ -1,15 +1,27 @@
 from pathlib import Path
-import pandas as pd
 import joblib
+from huggingface_hub import hf_hub_download
 
-BASE_DIR = Path(__file__).resolve().parent.parent.parent
+
+REPO_ID = "Samrc2255/movie-recommendation-models"
+
+movies_path = hf_hub_download(
+    repo_id=REPO_ID,
+    filename="movies.pkl"
+)
+
+similarity_path = hf_hub_download(
+    repo_id=REPO_ID,
+    filename="similarity.pkl"
+)
+
 
 movies = joblib.load(
-    BASE_DIR / "data/processed/movies.pkl"
+    movies_path
 )
 
 similarity = joblib.load(
-    BASE_DIR / "data/processed/similarity.pkl"
+    similarity_path
 )
 
 
@@ -43,13 +55,18 @@ def recommend_with_scores(
         recommendations.append(
             {
                 "movie_id":
-                    int(movies.iloc[movie[0]].movie_id),
+                    int(
+                        movies.iloc[movie[0]].movie_id
+                    ),
 
                 "title":
                     movies.iloc[movie[0]].title,
 
                 "content_score":
-                    float(movie[1])
+                    round(
+                        float(movie[1]),
+                        4
+                    )
             }
         )
 
