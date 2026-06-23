@@ -27,9 +27,6 @@ tfidf_matrix = tfidf.fit_transform(
     movies["tags"]
 )
 
-similarity = cosine_similarity(
-    tfidf_matrix
-)
 
 
 def recommend_with_scores(
@@ -47,14 +44,18 @@ def recommend_with_scores(
 
     movie_index = movie_match.index[0]
 
-    distances = similarity[movie_index]
+    movie_vector = tfidf_matrix[movie_index]
+
+    distances = cosine_similarity(
+        movie_vector,
+        tfidf_matrix
+    ).flatten()
 
     movie_list = sorted(
         list(enumerate(distances)),
         reverse=True,
         key=lambda x: x[1]
-    )[1: top_n + 1]
-
+        )[1: top_n + 1]
     recommendations = []
 
     for movie in movie_list:
