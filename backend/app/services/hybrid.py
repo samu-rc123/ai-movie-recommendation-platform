@@ -50,7 +50,7 @@ def hybrid_recommend(
         svd_score = predict_rating(
             user_id,
             movie_id
-        ).est
+        )
         reviews = movie_reviews.get(
         movie["title"],
         ["Average movie"]
