@@ -4,20 +4,30 @@ from data.movie_reviews import movie_reviews
 from app.services.sentiment import (
     aggregate_sentiment
 )
-from app.services.collaborative import model
+from app.services.collaborative import (predict_rating)
 from pathlib import Path
 import json
 from app.services.explain import (generate_explanation)
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
-with open(
+
+sentiments = None
+
+def load_sentiments():
+
+    global sentiments
+
+    if sentiments is None:
+
+        with open(
     BASE_DIR / "data/movie_sentiments.json",
     "r",
     encoding="utf-8"
 ) as f:
-    sentiments = json.load(f)
+            sentiments = json.load(f)
 
+    return sentiments
 
 def hybrid_recommend(
     user_id,
@@ -25,6 +35,7 @@ def hybrid_recommend(
     top_n=5
 ):
 
+    load_sentiments()
     candidates = recommend_with_scores(
         movie_name,
         top_n=20
@@ -36,7 +47,7 @@ def hybrid_recommend(
 
         movie_id = movie["movie_id"]
 
-        svd_score = model.predict(
+        svd_score = predict_rating(
             user_id,
             movie_id
         ).est
