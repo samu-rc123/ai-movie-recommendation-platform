@@ -28,13 +28,7 @@ def get_recommendations(
         "movie": movie_name,
         "recommendations": recommendations
     }
-@router.get("/hybrid-test")
-def hybrid_test():
 
-    return hybrid_recommend(
-        user_id=1,
-        movie_name="Avatar"
-    )
 @router.post("/recommend-with-review")
 def recommend_with_review(
     request: RecommendationRequest

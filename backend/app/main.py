@@ -1,10 +1,20 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+
 from app.api.movies import router as movie_router
-from app.api.report import (router as report_router)
-from app.api.sentiment import (router as sentiment_router)
+from app.api.report import router as report_router
+from app.api.sentiment import router as sentiment_router
 from app.api.recommend import router as recommend_router
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # allow Vercel frontend
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 app.include_router(movie_router)
 app.include_router(report_router)
