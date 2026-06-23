@@ -13,8 +13,7 @@ ratings = None
 def load_collaborative():
 
     global model
-    global movies
-    global ratings
+    
 
     if model is None:
 
@@ -25,20 +24,6 @@ def load_collaborative():
 
         model = joblib.load(
             svd_path
-        )
-
-    if movies is None:
-
-        movies = pd.read_csv(
-            BASE_DIR /
-            "data/raw/movielens/movies.csv"
-        )
-
-    if ratings is None:
-
-        ratings = pd.read_csv(
-            BASE_DIR /
-            "data/raw/movielens/ratings.csv"
         )
 
 def recommend_for_user(
