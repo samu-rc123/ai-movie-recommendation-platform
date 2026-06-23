@@ -43,16 +43,6 @@ def load_recommender():
             movies["tags"]
         )
 
-tfidf = TfidfVectorizer(
-    max_features=5000,
-    stop_words="english"
-)
-
-tfidf_matrix = tfidf.fit_transform(
-    movies["tags"]
-)
-
-
 
 def recommend_with_scores(
     movie_name,
