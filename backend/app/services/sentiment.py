@@ -1,13 +1,6 @@
 from transformers import pipeline
-from dotenv import load_dotenv
-import os
 
-load_dotenv()
 
-MODEL_PATH = pipeline(
-    "sentiment-analysis",
-    model="distilbert-base-uncased-finetuned-sst-2-english"
-)
 
 sentiment_model = None
 def get_sentiment_model():
@@ -18,8 +11,7 @@ def get_sentiment_model():
 
         sentiment_model = pipeline(
             "sentiment-analysis",
-            model=MODEL_PATH,
-            tokenizer=MODEL_PATH
+            model="distilbert-base-uncased-finetuned-sst-2-english"
         )
 
     return sentiment_model
