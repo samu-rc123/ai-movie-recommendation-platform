@@ -39,4 +39,34 @@ def hybrid_test():
 def recommend_with_review(
     request: RecommendationRequest
 ):
-    ...
+
+    review_sentiment = analyze_sentiment(
+        request.review
+    )
+
+    recommendations = hybrid_recommend(
+        request.user_id,
+        request.movie
+    )
+
+    if review_sentiment["label"] == "POSITIVE":
+        multiplier = 1.05
+    else:
+        multiplier = 0.95
+
+    for movie in recommendations:
+
+        movie["adjusted_score"] = round(
+            movie["final_score"] * multiplier,
+            3
+        )
+
+    recommendations.sort(
+        key=lambda x: x["adjusted_score"],
+        reverse=True
+    )
+
+    return {
+        "review_sentiment": review_sentiment,
+        "recommendations": recommendations
+    }
