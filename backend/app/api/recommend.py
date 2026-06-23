@@ -6,6 +6,13 @@ from app.services.recommender import (
 from app.services.hybrid import (
     hybrid_recommend
 )
+from app.services.sentiment import (
+    analyze_sentiment
+)
+
+from app.schemas.recommend import (
+    RecommendationRequest
+)
 router = APIRouter()
 
 @router.get("/recommend/{movie_name}")
@@ -28,3 +35,8 @@ def hybrid_test():
         user_id=1,
         movie_name="Avatar"
     )
+@router.post("/recommend-with-review")
+def recommend_with_review(
+    request: RecommendationRequest
+):
+    ...
