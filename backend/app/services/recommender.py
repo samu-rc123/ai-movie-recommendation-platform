@@ -7,16 +7,6 @@ REPO_ID = "Samrc2255/movie-recommendation-models"
 
 movies = None
 tfidf_matrix = None
-from huggingface_hub import hf_hub_download
-import joblib
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.metrics.pairwise import cosine_similarity
-
-REPO_ID = "Samrc2255/movie-recommendation-models"
-
-movies = None
-tfidf_matrix = None
-
 
 def load_recommender():
 
