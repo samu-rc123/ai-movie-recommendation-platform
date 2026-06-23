@@ -1,4 +1,3 @@
-from pathlib import Path
 import joblib
 from huggingface_hub import hf_hub_download
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -6,17 +5,43 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 REPO_ID = "Samrc2255/movie-recommendation-models"
 
-movies_path = hf_hub_download(
-    repo_id=REPO_ID,
-    filename="movies.pkl"
-)
+movies = None
+tfidf_matrix = None
+from huggingface_hub import hf_hub_download
+import joblib
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+
+REPO_ID = "Samrc2255/movie-recommendation-models"
+
+movies = None
+tfidf_matrix = None
 
 
+def load_recommender():
 
+    global movies
+    global tfidf_matrix
 
-movies = joblib.load(
-    movies_path
-)
+    if movies is None:
+
+        movies_path = hf_hub_download(
+            repo_id=REPO_ID,
+            filename="movies.pkl"
+        )
+
+        movies = joblib.load(
+            movies_path
+        )
+
+        tfidf = TfidfVectorizer(
+            max_features=5000,
+            stop_words="english"
+        )
+
+        tfidf_matrix = tfidf.fit_transform(
+            movies["tags"]
+        )
 
 tfidf = TfidfVectorizer(
     max_features=5000,
@@ -33,7 +58,7 @@ def recommend_with_scores(
     movie_name,
     top_n=20
 ):
-
+    load_recommender()
     movie_match = movies[
         movies["title"].str.lower()
         == movie_name.lower()

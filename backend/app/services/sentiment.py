@@ -4,19 +4,29 @@ import os
 
 load_dotenv()
 
-MODEL_PATH = os.getenv(
-    "MODEL_PATH",
-    "./models/sentiment"
+MODEL_PATH = pipeline(
+    "sentiment-analysis",
+    model="distilbert-base-uncased-finetuned-sst-2-english"
 )
 
-sentiment_model = pipeline(
-    "sentiment-analysis",
-    model=MODEL_PATH,
-    tokenizer=MODEL_PATH
-)
+sentiment_model = None
+def get_sentiment_model():
+
+    global sentiment_model
+
+    if sentiment_model is None:
+
+        sentiment_model = pipeline(
+            "sentiment-analysis",
+            model=MODEL_PATH,
+            tokenizer=MODEL_PATH
+        )
+
+    return sentiment_model
+
 def analyze_sentiment(text):
 
-    result = sentiment_model(text)[0]
+    result = get_sentiment_model()(text)[0]
 
     label = (
         "POSITIVE"

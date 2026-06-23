@@ -7,26 +7,45 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 REPO_ID = "Samrc2255/movie-recommendation-models"
 
-svd_path = hf_hub_download(
-    repo_id=REPO_ID,
-    filename="svd_model.pkl"
-)
+model = None
+movies = None
+ratings = None
+def load_collaborative():
 
-model = joblib.load(
-    svd_path
-)
+    global model
+    global movies
+    global ratings
 
-movies = pd.read_csv(
-    BASE_DIR / "data/raw/movielens/movies.csv"
-)
+    if model is None:
 
-ratings = pd.read_csv(
-    BASE_DIR / "data/raw/movielens/ratings.csv"
-)
+        svd_path = hf_hub_download(
+            repo_id=REPO_ID,
+            filename="svd_model.pkl"
+        )
+
+        model = joblib.load(
+            svd_path
+        )
+
+    if movies is None:
+
+        movies = pd.read_csv(
+            BASE_DIR /
+            "data/raw/movielens/movies.csv"
+        )
+
+    if ratings is None:
+
+        ratings = pd.read_csv(
+            BASE_DIR /
+            "data/raw/movielens/ratings.csv"
+        )
+
 def recommend_for_user(
     user_id,
     top_n=5
 ):
+    load_collaborative()
     watched_movies = set(
         ratings[
             ratings["userId"] == user_id
@@ -77,6 +96,7 @@ def recommend_for_user(
 
     return result
 def predict_rating(user_id, movie_id):
+    load_collaborative()
     prediction = model.predict(
         uid=user_id,
         iid=movie_id
